@@ -5,5 +5,4 @@ http://www.ddocent.com/UserGuide/
 `dDocent config.file`
 
 # SNP Filtering
-
-http://www.ddocent.com/filtering/ 
+See steps in https://github.com/yuqingc7/LIS-oyster-admixture/tree/main/ddRAD/filtering_workdir. 
