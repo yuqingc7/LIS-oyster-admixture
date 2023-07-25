@@ -1,0 +1,36 @@
+PLINK v1.90b5.3 64-bit (21 Feb 2018)
+Options in effect:
+  --allow-extra-chr
+  --out /workdir/yc2644/CV_NYC_ddRAD/structure/n380_all_cor/threader_input/n380_all_SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.n380_refil
+  --recode structure
+  --vcf /workdir/yc2644/CV_NYC_ddRAD/vcf/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.n380_refil.recode.vcf
+
+Hostname: cbsuhare.biohpc.cornell.edu
+Working directory: /local/workdir/yc2644/CV_NYC_ddRAD/structure
+Start time: Sat Mar 19 11:29:09 2022
+
+Random number seed: 1647703749
+257404 MB RAM detected; reserving 128702 MB for main workspace.
+--vcf:
+/workdir/yc2644/CV_NYC_ddRAD/structure/n380_all_cor/threader_input/n380_all_SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.n380_refil-temporary.bed
++
+/workdir/yc2644/CV_NYC_ddRAD/structure/n380_all_cor/threader_input/n380_all_SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.n380_refil-temporary.bim
++
+/workdir/yc2644/CV_NYC_ddRAD/structure/n380_all_cor/threader_input/n380_all_SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.n380_refil-temporary.fam
+written.
+5625 variants loaded from .bim file.
+380 people (0 males, 0 females, 380 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to
+/workdir/yc2644/CV_NYC_ddRAD/structure/n380_all_cor/threader_input/n380_all_SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.n380_refil.nosex
+.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 380 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.990045.
+5625 variants and 380 people pass filters and QC.
+Note: No phenotypes present.
+--recode structure to
+/workdir/yc2644/CV_NYC_ddRAD/structure/n380_all_cor/threader_input/n380_all_SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.n380_refil.recode.strct_in
+... done.
+
+End time: Sat Mar 19 11:29:09 2022
