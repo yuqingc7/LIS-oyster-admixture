@@ -2,7 +2,7 @@
 
 - Filtering steps in dDocent tutorial http://www.ddocent.com/filtering/ was generally followed. 
 - The input is `TotalRawSNPs.vcf` from dDocent pipeline called by FreeBayes and a minimal filtering by VCFtools. 
-- The output is `SNP.DP3g95p10maf05.HWE.recode.vcf`. 
+- The output is `SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396.recode.vcf`. 
 - To evaluate the potential errors, use `ErrorCount.sh`
     ```
     curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ErrorCount.sh
@@ -87,3 +87,18 @@ chmod +x filter_hwe_by_pop.pl
 ```
 
 We have now created a thoroughly filtered VCF, and we should have confidence in these SNP calls.
+
+Keep only biallelic SNPs and relevant populations for downstream population genomic analysis
+```
+# change "_" to "-" in VCF headers and keep only biallelic SNPs
+./filter_biallelic.sh
+
+# exclude GRV population
+PREFIX=SNP.DP3g95p10maf05.HWE.mod.biallelic.recode
+NEW_PREFIX=SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396.recode
+SAMPLE=/workdir/yc2644/CV_NYC_ddRAD/vcf/sample_id_all_exGRV_396_mod.txt
+bgzip "/workdir/yc2644/CV_NYC_ddRAD/vcf/"$PREFIX".vcf"
+tabix -p vcf "/workdir/yc2644/CV_NYC_ddRAD/vcf/"$PREFIX".vcf.gz"
+bcftools view -Oz -S $SAMPLE "/workdir/yc2644/CV_NYC_ddRAD/vcf/"$PREFIX".vcf.gz" > "/workdir/yc2644/CV_NYC_ddRAD/vcf/"$NEW_PREFIX".recode.vcf.gz" 
+gunzip -c "/workdir/yc2644/CV_NYC_ddRAD/vcf/"$NEW_PREFIX".recode.vcf.gz" > "/workdir/yc2644/CV_NYC_ddRAD/vcf/"$NEW_PREFIX".recode.vcf"
+```

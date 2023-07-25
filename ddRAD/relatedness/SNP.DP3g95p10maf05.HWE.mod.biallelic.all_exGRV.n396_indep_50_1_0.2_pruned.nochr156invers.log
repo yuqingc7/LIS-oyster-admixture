@@ -1,0 +1,37 @@
+PLINK v2.00a3LM 64-bit Intel (29 Jan 2022)
+Options in effect:
+  --allow-extra-chr
+  --king-cutoff 0.177
+  --out /workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers
+  --vcf /workdir/yc2644/CV_NYC_ddRAD/vcf/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.recode.vcf
+
+Hostname: cbsuhare.biohpc.cornell.edu
+Working directory: /local/workdir/yc2644/CV_NYC_ddRAD/relatedness
+Start time: Thu Mar 17 18:52:21 2022
+
+Random number seed: 1647557541
+257404 MiB RAM detected; reserving 128702 MiB for main workspace.
+Using up to 48 threads (change this with --threads).
+--vcf: 5625 variants scanned.
+--vcf:
+/workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers-temporary.pgen
++
+/workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers-temporary.pvar.zst
++
+/workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers-temporary.psam
+written.
+396 samples (0 females, 0 males, 396 ambiguous; 396 founders) loaded from
+/workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers-temporary.psam.
+5625 variants loaded from
+/workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers-temporary.pvar.zst.
+Note: No phenotype data present.
+--king-cutoff pass 1/1: Scanning for rare variants... done.
+19 variants handled by initial scan (5606 remaining).
+--king-cutoff: 5625 variants processed.
+--king-cutoff: Excluded sample IDs written to
+/workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.king.cutoff.out.id
+, and 381 remaining sample IDs written to
+/workdir/yc2644/CV_NYC_ddRAD/relatedness/SNP.DP3g95p10maf05.HWE.mod.biallelic.all_exGRV.n396_indep_50_1_0.2_pruned.nochr156invers.king.cutoff.in.id
+.
+
+End time: Thu Mar 17 18:52:21 2022
