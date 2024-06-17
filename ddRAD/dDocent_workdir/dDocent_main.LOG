@@ -1,0 +1,36 @@
+
+dDocent version 2.8.13 started Fri Feb 4 11:38:31 EST 2022 
+
+At this point, all configuration information has been entered and dDocent may take several hours to run.
+It is recommended that you move this script to a background operation and disable terminal input and output.
+All data and logfiles will still be recorded.
+To do this:
+Press control and Z simultaneously
+Type 'bg' without the quotes and press enter
+Type 'disown -h' again without the quotes and press enter
+
+Now sit back, relax, and wait for your analysis to finish
+
+Using BWA to map reads
+
+Creating alignment intervals
+
+Using FreeBayes to call SNPs
+
+Using VCFtools to parse TotalRawSNPS.vcf for SNPs that are called in at least 90% of individuals
+
+dDocent has finished with an analysis in /workdir/yc2644/CV_NYC_ddRAD/dDocent_workdir 
+
+dDocent started Fri Feb 4 11:38:31 EST 2022 
+
+dDocent finished Sun Feb 6 07:39:47 EST 2022 
+
+After filtering, kept 87495 out of a possible 1042424 Sites 
+
+dDocent 2.8.13 
+The 'd' is silent, hillbilly.
+
+dDocent version 2.8.13 started Wed Jul 19 07:21:55 PM EDT 2023 
+
+521 individuals are detected. Is this correct? Enter yes or no and press [ENTER]
+Incorrect Input

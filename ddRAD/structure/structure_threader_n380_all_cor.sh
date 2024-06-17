@@ -8,7 +8,6 @@
 #SBATCH --mem=20gb # job memory request; request 8 GB of memory for this job; default is 1GB per job; here: 8
 #SBATCH --output=structure_threader_n380_all_cor.out.%j # write stdout+stderr to this file; %A and %a replacement strings for the master job ID and task ID
 
-
 ## start date
 start=`date +%s`
 
