@@ -175,9 +175,12 @@ meta
 length(sort(unique(meta$pop))) # 22 populations
 
 dim(meta); dim(tab)
+# tab_meta <- right_join(meta, tab, by="sample.id") %>% 
+#   mutate(grp = ifelse(grepl("FI", pop), "Aquacultured", 
+#                       ifelse(grepl("HH|IRV|PM|PRA|TPZ", pop), "Hudson River", "East River")))
 tab_meta <- right_join(meta, tab, by="sample.id") %>% 
-  mutate(grp = ifelse(grepl("FI", pop), "Aquacultured", 
-                      ifelse(grepl("HH|IRV|PM|PRA|TPZ", pop), "Hudson River", "East River")))
+  mutate(grp = ifelse(grepl("FI1012", pop), "Aquaculture_1A", ifelse(grepl("FIS1013a", pop), "Aquaculture_1B",
+                                                                     ifelse(grepl("HH|IRV|PM|PRA|TPZ", pop), "Hudson River", "East River"))))
 
 dim(tab_meta)
 length(sort(unique(tab_meta$pop))) # 19 populations
@@ -190,10 +193,10 @@ ggplot(tab_meta, aes(x = EV1, y = EV2)) +
   label.buffer = unit(0, 'mm'),
   show.legend = F
   ) +
-  scale_colour_manual(values=c("#8DA0CB", "#FC8D62","#66C2A5"), name = "Population", 
-                      labels = c("Aquaculture", "East River", "Hudson River")) +
-  scale_shape_manual(values=c(17, 4, 4), name = "Population", 
-                     labels = c("Aquaculture", "East River", "Hudson River")) +
+  scale_colour_manual(values=c("#8DA0CB", "#8DA0CB","#FC8D62","#66C2A5"), name = "Population", 
+                      labels = c("AQ_1A", "AQ_1B", "East River", "Hudson River")) +
+  scale_shape_manual(values=c(17,2, 4, 4), name = "Population", 
+                     labels = c("AQ_1A", "AQ_1B", "East River", "Hudson River")) +
   scale_x_continuous(paste("PC1 (",round(pc.percent[1],3),"%", ")",sep="")) + 
   scale_y_continuous(paste("PC2 (",round(pc.percent[2],3),"%",")",sep=""))+ 
   theme(panel.background = element_rect(fill = 'white', colour = 'white'))+
@@ -205,7 +208,8 @@ ggplot(tab_meta, aes(x = EV1, y = EV2)) +
         legend.position = c(0.25,0.2),
         legend.background = element_rect(fill = "white", color = "white", size = 0.3),
         legend.box = "vertical",
-        legend.title = element_text(size = 12))+
+        legend.title = element_text(size = 12),
+        legend.key = element_rect(fill = "#f2f2f2",color="#f2f2f2"))+
   coord_cartesian(ylim=c(-0.425,0.25))
 
 ggsave("ddRAD_PCA.pdf", device = "pdf", width=12, height =11, unit="cm",

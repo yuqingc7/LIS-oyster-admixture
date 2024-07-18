@@ -13,7 +13,8 @@ str_ddRAD_all <- read_csv("/local/workdir/yc2644/CV_NYC_ddRAD/structure/n380_str
   mutate(location = c(rep("Aquaculture",27), 
                       rep("Hudson River",189), 
                       rep("ddRAD\nEast River",164))) %>% dplyr::rename(p=Group,AQ=P2)
-zero_ddRAD <- mean(subset(str_ddRAD_all, location == "Hudson River"|p != "PRA1013a")$AQ)
+#check <- subset(str_ddRAD_all, location == "Hudson River"&p != "PRA1013a")
+zero_ddRAD <- mean(subset(str_ddRAD_all, location == "Hudson River"&p != "PRA1013a")$AQ)
 
 str_ddRAD <- str_ddRAD_all %>% 
   filter(location=="ddRAD\nEast River")
@@ -68,7 +69,7 @@ p1 <- ggplot(str_real_nozero,
                                    size = 1.5, alpha=0.45))+
   scale_fill_manual(values=rep("lightslateblue",8))+
   geom_point(stat = "summary", fun = "mean", size = 2, color = "red",na.rm = F) +
-  ylab(label = "Aquaculture-sourced admixture levels\nfor admixed individuals") +
+  ylab(label = "Aquaculture-source admixture levels\nfor admixed individuals") +
   xlab(label = NULL) +
   labs(title = "Empirical Data from ddRAD and lcWGS") +
   theme_minimal() +
@@ -81,6 +82,7 @@ p1 <- ggplot(str_real_nozero,
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank())+
   coord_cartesian(ylim = c(0, 1))
+p1
 
 # empirical non-admixed proportion ----------------------------------------
 
@@ -91,6 +93,7 @@ str_ddRAD_non <- str_ddRAD %>%
   mutate(freq_unadmixed = num_zeros/(nrow(str_ddRAD))) %>% 
   dplyr::select(p,freq_unadmixed) %>% 
   mutate(location="ddRAD\nEast River")
+1-mean(str_ddRAD_non$freq_unadmixed)
 
 str_lcWGS_non <- str_lcWGS %>% 
   group_by(p,location) %>% 
@@ -99,6 +102,7 @@ str_lcWGS_non <- str_lcWGS %>%
   ungroup() %>% 
   mutate(freq_unadmixed = num_zeros/n) %>% 
   dplyr::select(p,freq_unadmixed,location)
+1-mean(str_lcWGS_non$freq_unadmixed)
 
 empirical_non <- rbind(str_ddRAD_non,str_lcWGS_non)
 
@@ -121,7 +125,11 @@ ggplot(empirical_non,
 empirical_non %>% 
   group_by(location) %>% 
   dplyr::summarise(mean = mean(freq_unadmixed))
-
+# location              mean
+# <chr>                <dbl>
+#   1 "ddRAD\nEast River" 0.0305
+# 2 "lcWGS\nEast River" 0.0417 #1-0.958
+# 3 "lcWGS\nLIS"        0.0333
 
 # cons high admixed box plots -------------------------------------------------------
 
@@ -141,7 +149,7 @@ read_and_combine_tsv <- function(file_path) {
 # Use purrr::map_dfr to read and combine the TSV files into one data frame
 combined_cons_tot_Q <- map_dfr(matching_files, read_and_combine_tsv) %>% 
   mutate(gen_to_admix=gen_to_admix-1) %>% 
-  mutate(across(all_of("gen_to_admix"), as_factor))
+  mutate(gen_to_admix = as.factor(gen_to_admix))
 # Print or work with the combined data
 print(combined_cons_tot_Q) #21600=1scen*4gen*10rep*6rate*90ind
 
@@ -194,8 +202,8 @@ ggplot(subset(combined_cons_tot_Q,pop=="W1"&AQ_assignment_rate>zero&admix_scenar
   # geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.2,
   #   size = 1,color = "red") +
   xlab(label = "Generation(s) since the first migration event") +
-  ylab(label = "Aquaculture-sourced admixture levels\nfor admixed individuals") +
-  labs(title = paste0("Consistent Annual Admixture Simulation\nMean Fst=",fst)) +
+  ylab(label = "Aquaculture-source admixture levels\nfor admixed individuals") +
+  labs(title = paste0("Consistent Annual Admixture Simulation\nInitial Mean Fst=",fst)) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 14),
@@ -224,7 +232,7 @@ ggplot(combined_cons_non,
   geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.1,size = 1)+
   xlab(label = "Generation(s) since the first migration event") +
   labs(y = "Proportions of admixed individuals\nin native population") +
-  labs(title = paste0("Consistent Annual Admixture Simulation\nMean Fst=",fst)) +
+  labs(title = paste0("Consistent Annual Admixture Simulation\nInitial Mean Fst=",fst)) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 16),
@@ -257,7 +265,7 @@ read_and_combine_tsv <- function(file_path) {
 # Use purrr::map_dfr to read and combine the TSV files into one data frame
 combined_cons_tot_Q <- map_dfr(matching_files, read_and_combine_tsv) %>% 
   mutate(gen_to_admix=gen_to_admix-1) %>% 
-  mutate(across(all_of("gen_to_admix"), as_factor))
+  mutate(gen_to_admix = as.factor(gen_to_admix))
 # Print or work with the combined data
 print(combined_cons_tot_Q) #21600=1scen*4gen*10rep*6rate*90ind
 
@@ -287,9 +295,9 @@ p2 <- ggplot(subset(combined_cons_tot_Q,pop=="W1"&AQ_assignment_rate>zero&admix_
   # geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.2,
   #   size = 1,color = "red") +
   xlab(label = "Generation(s) since the first migration event") +
-  #ylab(label = "Aquaculture-sourced admixture levels\nfor admixed individuals") +
+  #ylab(label = "Aquaculture-source admixture levels\nfor admixed individuals") +
   ylab(label = NULL) +
-  labs(title = paste0("Consistent Annual Admixture Simulation (Mean Fst=",fst,")")) +
+  labs(title = paste0("Consistent Annual Admixture Simulation (Initial Mean Fst=",fst,")")) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 14),
@@ -301,6 +309,7 @@ p2 <- ggplot(subset(combined_cons_tot_Q,pop=="W1"&AQ_assignment_rate>zero&admix_
   facet_wrap(~admix_scenario, nrow=1,
              #scales = "free_y",
              labeller = as_labeller(immigration_rate_list))
+p2
 
 # cons low non-admixed ---------------------------------------------------
 
@@ -317,7 +326,7 @@ ggplot(combined_cons_non,
   geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.1,size = 1)+
   xlab(label = "Generation(s) since the first migration event") +
   labs(y = "Proportions of admixed individuals\nin native population") +
-  labs(title = paste0("Consistent Annual Admixture Simulation\nMean Fst=",fst)) +
+  labs(title = paste0("Consistent Annual Admixture Simulation\nInitial Mean Fst=",fst)) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 16),
@@ -354,7 +363,7 @@ read_and_combine_tsv <- function(file_path) {
 # Use purrr::map_dfr to read and combine the TSV files into one data frame
 combined_cons_tot_Q <- map_dfr(matching_files, read_and_combine_tsv) %>% 
   mutate(gen_to_admix=gen_to_admix-1) %>% 
-  mutate(across(all_of("gen_to_admix"), as_factor))
+  mutate(gen_to_admix = as.factor(gen_to_admix))
 # Print or work with the combined data
 print(combined_cons_tot_Q) #21600=1scen*4gen*10rep*6rate*90ind
 
@@ -382,15 +391,17 @@ p3 <- ggplot(subset(combined_cons_tot_Q,pop=="W1"&AQ_assignment_rate>zero&admix_
   # geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.2,
   #   size = 1,color = "red") +
   xlab(label = "Generation(s) since the first migration event") +
-  ylab(label = "Aquaculture-sourced admixture levels\nfor admixed individuals") +
-  labs(title = paste0("Single Pulse Admixture Simulation (Mean Fst=",fst,")")) +
+  ylab(label = "Aquaculture-source admixture levels\nfor admixed individuals") +
+  labs(title = paste0("Single Pulse Admixture Simulation (Initial Mean Fst=",fst,")")) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 14),
         strip.text = element_text(size=14),
         plot.title = element_text(size = 14),
         legend.position = "none",
-        axis.text.x = element_text(size=12,hjust = 0.5, vjust = 0.5))+
+        axis.text.x = element_text(size=12,hjust = 0.5, vjust = 0.5),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())+
   facet_wrap(~admix_scenario, nrow=1,
              #scales = "free_y",
              labeller = as_labeller(immigration_rate_list)
@@ -412,7 +423,7 @@ ggplot(combined_cons_non,
   geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.1,size = 1)+
   xlab(label = "Generation(s) since the first migration event") +
   labs(y = "Proportions of admixed individuals\nin native population") +
-  labs(title = paste0("Single Pulse Admixture Simulation (Mean Fst=",fst,")")) +
+  labs(title = paste0("Single Pulse Admixture Simulation (Initial Mean Fst=",fst,")")) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 16),
@@ -444,7 +455,7 @@ read_and_combine_tsv <- function(file_path) {
 # Use purrr::map_dfr to read and combine the TSV files into one data frame
 combined_cons_tot_Q <- map_dfr(matching_files, read_and_combine_tsv) %>% 
   mutate(gen_to_admix=gen_to_admix-1) %>% 
-  mutate(across(all_of("gen_to_admix"), as_factor))
+  mutate(gen_to_admix = as.factor(gen_to_admix))
 # Print or work with the combined data
 print(combined_cons_tot_Q) #21600=1scen*4gen*10rep*6rate*90ind
 
@@ -472,8 +483,8 @@ p4 <- ggplot(subset(combined_cons_tot_Q,pop=="W1"&AQ_assignment_rate>zero&admix_
   # geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.2,
   #   size = 1,color = "red") +
   xlab(label = "Generation(s) since the first migration event") +
-  ylab(label = "Aquaculture-sourced admixture levels\nfor admixed individuals") +
-  labs(title = paste0("Single Pulse Admixture Simulation (Mean Fst=",fst,")")) +
+  ylab(label = "Aquaculture-source admixture levels\nfor admixed individuals") +
+  labs(title = paste0("Single Pulse Admixture Simulation (Initial Mean Fst=",fst,")")) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 14),
@@ -502,7 +513,7 @@ ggplot(combined_cons_non,
   geom_errorbar(stat = "summary",fun.data = "mean_cl_boot",width = 0.1,size = 1)+
   xlab(label = "Generation(s) since the first migration event") +
   labs(y = "Proportions of admixed individuals\nin native population") +
-  labs(title = paste0("Single Pulse Admixture Simulation (Mean Fst=",fst,")")) +
+  labs(title = paste0("Single Pulse Admixture Simulation (Initial Mean Fst=",fst,")")) +
   theme_minimal() +
   theme(axis.text = element_text(size=14,hjust = 0.5, vjust = 0.5),
         axis.title = element_text(size = 16),
@@ -524,7 +535,7 @@ CCCCCC
 DDDDDD
 "
 
-p1+p2+p4+p3+ plot_layout(design=layout, axis_titles = "collect")#,axes = "collect")
+#p1+p2+p4+p3+ plot_layout(design=layout, axis_titles = "collect")#,axes = "collect")
 
 layout1 <-" 
 AABBBB
@@ -563,7 +574,7 @@ read_and_combine_tsv <- function(file_path) {
 
 # Use purrr::map_dfr to read and combine the TSV files into one data frame
 combined_cons_sum_by_rep_Q <- map_dfr(matching_files, read_and_combine_tsv) %>% 
-  mutate(across(all_of("gen_to_admix"), as_factor))
+  mutate(gen_to_admix = as.factor(gen_to_admix))
 # Print or work with the combined data
 print(combined_cons_sum_by_rep_Q) #720=1scen*4gen*10rep*6rate*3pop
 
